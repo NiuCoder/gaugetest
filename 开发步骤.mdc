@@ -1,0 +1,165 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ # Custom Bandwidth Gauge 开发步骤
+
+## 1. 项目初始化
+
+### 1.1 创建项目
+```bash
+# 使用 Vite 创建 React 项目
+npm create vite@latest gaugetest -- --template react
+
+# 进入项目目录
+cd gaugetest
+
+# 安装依赖
+npm install
+```
+
+### 1.2 安装必要依赖
+```bash
+npm install react-gauge-component
+```
+
+## 2. 组件开发
+
+### 2.1 创建组件文件
+在 `src/components` 目录下创建 `CustomGauge.jsx`：
+
+```jsx
+import { GaugeComponent } from 'react-gauge-component'
+
+const CustomGauge = () => {
+  return (
+    <div className="gauge-container">
+      <h1>Custom Bandwidth Gauge</h1>
+      <GaugeComponent
+        type="semicircle"
+        arc={{
+          width: 0.2,
+          padding: 0.005,
+          cornerRadius: 1,
+          subArcs: [
+            {
+              limit: 25,
+              color: '#5BE12C',
+              showTick: true
+            },
+            {
+              limit: 50,
+              color: '#F5CD19',
+              showTick: true
+            },
+            {
+              limit: 75,
+              color: '#F58B19',
+              showTick: true
+            },
+            {
+              color: '#EA4228',
+              showTick: true
+            }
+          ]
+        }}
+        pointer={{
+          elastic: true,
+          animationDelay: 0
+        }}
+        labels={{
+          valueLabel: { formatTextValue: value => value + 'MB/s' }
+        }}
+        value={65}
+      />
+    </div>
+  )
+}
+
+export default CustomGauge
+```
+
+### 2.2 修改 App.jsx
+```jsx
+import CustomGauge from './components/CustomGauge'
+import './App.css'
+
+function App() {
+  return (
+    <div className="App">
+      <CustomGauge />
+    </div>
+  )
+}
+
+export default App
+```
+
+### 2.3 添加样式
+在 `src/index.css` 中添加：
+
+```css
+.gauge-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.gauge-container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+```
+
+## 3. 运行和测试
+
+### 3.1 本地开发
+```bash
+npm run dev
+```
+
+### 3.2 测试检查项
+1. 仪表盘显示是否正确
+2. 颜色区间是否正确
+3. 数值显示是否正确
+4. 动画效果是否流畅
+5. 响应式布局是否正常
+
+## 4. 构建和部署
+
+### 4.1 构建项目
+```bash
+npm run build
+```
+
+### 4.2 部署步骤
+1. 检查 `dist` 目录下的构建文件
+2. 将构建文件部署到静态服务器
+3. 验证部署环境
+
+## 5. 优化建议
+
+### 5.1 功能优化
+- 添加动态数值更新功能
+- 实现自定义主题配置
+- 添加交互式控制面板
+
+### 5.2 性能优化
+- 组件按需加载
+- 资源懒加载
+- 动画性能优化
+
+## 6. 注意事项
+
+### 6.1 技术要点
+- 确保 React 版本兼容性
+- 注意浏览器兼容性
+- 关注性能优化
+
+### 6.2 开发建议
+- 遵循组件库的最佳实践
+- 保持代码简洁清晰
+- 添加必要的注释
+- 做好错误处理 
+
