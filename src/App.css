@@ -8,10 +8,12 @@
 
 .App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
   width: 100%;
+  padding-top: 60px; /* 为Header留出空间 */
 }
 
 .gauges-container {
@@ -23,7 +25,7 @@
   height: 50vh;
   padding: 2rem;
   background-color: #1A1A1A;
-  margin-top: 100px;
+  /* 这里不需要margin-top，InfoPanel会自动占据空间 */
 }
 
 .gauge-wrapper {

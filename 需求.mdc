@@ -1,7 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
-基于这个开源的组件库：https://github.com/antoniolago/react-gauge-component
-写一个静态页面，用于展现Custom Bandwidth Gauge这个示例

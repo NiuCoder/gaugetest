@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <InfoPanel />
       <div className="gauges-container">
         <div className="gauge-wrapper">
           <CustomGauge />
