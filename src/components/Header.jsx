@@ -1,16 +1,41 @@
 import { useState, useEffect } from 'react';
-import { FiWifi, FiSettings } from 'react-icons/fi';  // 使用 react-icons 提供的图标
+import { FiWifi, FiSettings, FiWifiOff } from 'react-icons/fi';  // 添加WiFi断开图标
+import networkService from '../services/networkService';
 import './Header.css';
 
 const Header = ({ onSettingsClick }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isConnected, setIsConnected] = useState(networkService.isConnected());
 
+  // 监听网络状态和时间更新
   useEffect(() => {
-    const timer = setInterval(() => {
+    // 设置网络状态监听器
+    const handleConnectionChange = (connected) => {
+      setIsConnected(connected);
+    };
+    
+    // 启动网络监控
+    networkService.addConnectionListener(handleConnectionChange);
+    networkService.startMonitoring();
+    
+    // 在开发环境中模拟UDP报文
+    // 在实际应用中，应当在收到真实UDP报文时调用networkService.packetReceived()
+    const simulationInterval = setInterval(() => {
+      networkService.simulatePacket(0.7); // 70%概率收到报文
+    }, 1000);
+    
+    // 时钟更新定时器
+    const clockTimer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
 
-    return () => clearInterval(timer);
+    // 清理函数
+    return () => {
+      networkService.removeConnectionListener(handleConnectionChange);
+      networkService.stopMonitoring();
+      clearInterval(simulationInterval);
+      clearInterval(clockTimer);
+    };
   }, []);
 
   const formatDate = (date) => {
@@ -29,7 +54,11 @@ const Header = ({ onSettingsClick }) => {
     <div className="header">
       <div className="time">{formatDate(currentTime)}</div>
       <div className="icons">
-        <FiWifi className="icon" />
+        {isConnected ? (
+          <FiWifi className="icon" title="网络已连接" />
+        ) : (
+          <FiWifiOff className="icon wifi-disconnected" title="网络已断开" />
+        )}
         <FiSettings className="icon" onClick={onSettingsClick} />
       </div>
     </div>
