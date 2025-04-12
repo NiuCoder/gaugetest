@@ -2,8 +2,8 @@
   display: flex;
   width: 100%;
   padding: 0;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: transparent;
   position: relative;
 }
@@ -11,7 +11,7 @@
 .info-panel::before,
 .info-panel::after {
   content: "";
-  min-width: 20px;
+  min-width: clamp(5px, 1vw, 20px);
 }
 
 .info-items-container {
@@ -19,23 +19,64 @@
   justify-content: space-evenly;
   width: 100%;
   flex: 1;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
   text-align: center;
+  padding: 0.2rem;
+  flex: 1;
+  min-width: 80px;
 }
 
 .info-label {
-  font-size: 1.2rem;
+  font-size: clamp(0.7rem, 2vw, 1.2rem);
   color: #FFF;
+  white-space: nowrap;
 }
 
 .info-value {
-  font-size: 1.5rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.5rem);
   font-weight: 500;
   color: #FFF;
+}
+
+@media (max-width: 1024px) {
+  .info-items-container {
+    justify-content: space-around;
+    padding: 0 10px;
+  }
+  
+  .info-item {
+    min-width: 120px;
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-panel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .info-items-container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .info-item {
+    min-width: calc(33% - 10px);
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-item {
+    min-width: calc(50% - 10px);
+  }
 } 

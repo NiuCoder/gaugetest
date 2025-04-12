@@ -6,25 +6,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: transparent;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.8rem, 3vw, 2rem);
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景更容易看清 */
   color: #fff;
   z-index: 1000;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3); /* 轻微阴影使其更明显 */
 }
 
 .time {
-  font-size: 1.2rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem);
   font-weight: 500;
+  white-space: nowrap; /* 防止时间换行 */
 }
 
 .icons {
   display: flex;
-  gap: 1.5rem;
+  gap: clamp(0.8rem, 2vw, 1.5rem);
   align-items: center;
 }
 
 .icon {
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -45,5 +47,35 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+/* 媒体查询 - 手机设备 */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.5rem 0.8rem;
+  }
+  
+  .time {
+    font-size: 0.9rem;
+  }
+  
+  .icon {
+    font-size: 1.1rem;
+  }
+}
+
+/* 超小屏幕 */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .time {
+    font-size: 0.8rem;
+  }
+  
+  .icons {
+    gap: 0.8rem;
   }
 } 
