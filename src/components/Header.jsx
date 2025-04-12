@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FiWifi, FiSettings } from 'react-icons/fi';  // 使用 react-icons 提供的图标
 import './Header.css';
 
-const Header = () => {
+const Header = ({ onSettingsClick }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Header = () => {
       <div className="time">{formatDate(currentTime)}</div>
       <div className="icons">
         <FiWifi className="icon" />
-        <FiSettings className="icon" />
+        <FiSettings className="icon" onClick={onSettingsClick} />
       </div>
     </div>
   );
