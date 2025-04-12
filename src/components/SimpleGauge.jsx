@@ -1,21 +1,33 @@
 import { GaugeComponent } from 'react-gauge-component'
 import { useState, useEffect } from 'react'
+import udpService from '../services/udpService'
 import './SimpleGauge.css'
 
 const SimpleGauge = () => {
   const [value, setValue] = useState(48)  // 初始值设为48%
 
-  // 模拟百分比变化
+  // 从UDP服务获取电量数据
   useEffect(() => {
-    const interval = setInterval(() => {
-      setValue(prev => {
-        const newValue = prev + (Math.random() * 10 - 5) // 随机增减值
-        return Math.min(Math.max(newValue, 0), 100) // 确保值在 0-100 之间
-      })
-    }, 2000) // 每2秒更新一次
+    // 获取初始数据
+    const initialData = udpService.getLastData();
+    if (initialData && initialData.batteryLevel !== undefined) {
+      setValue(initialData.batteryLevel);
+    }
 
-    return () => clearInterval(interval)
-  }, [])
+    // 添加数据更新监听器
+    const handleDataUpdate = (newData) => {
+      if (newData.batteryLevel !== undefined) {
+        setValue(newData.batteryLevel);
+      }
+    };
+
+    udpService.addDataListener(handleDataUpdate);
+
+    // 组件卸载时移除监听器
+    return () => {
+      udpService.removeDataListener(handleDataUpdate);
+    };
+  }, []);
 
   return (
     <div className="gauge-container battery-gauge">

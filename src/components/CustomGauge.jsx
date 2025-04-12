@@ -1,21 +1,33 @@
 import { GaugeComponent } from 'react-gauge-component'
 import { useState, useEffect } from 'react'
+import udpService from '../services/udpService'
 import './CustomGauge.css'
 
 const CustomGauge = () => {
   const [value, setValue] = useState(0.9)  // 初始值设为0.9 m/s
 
-  // 模拟速度变化
+  // 从UDP服务获取速度数据
   useEffect(() => {
-    const interval = setInterval(() => {
-      setValue(prev => {
-        const newValue = prev + (Math.random() * 0.2 - 0.1) // 随机增减值
-        return Math.min(Math.max(newValue, 0), 3.0) // 确保值在 0-3.0 之间
-      })
-    }, 2000) // 每2秒更新一次
+    // 获取初始数据
+    const initialData = udpService.getLastData();
+    if (initialData && initialData.speed !== undefined) {
+      setValue(initialData.speed);
+    }
 
-    return () => clearInterval(interval)
-  }, [])
+    // 添加数据更新监听器
+    const handleDataUpdate = (newData) => {
+      if (newData.speed !== undefined) {
+        setValue(newData.speed);
+      }
+    };
+
+    udpService.addDataListener(handleDataUpdate);
+
+    // 组件卸载时移除监听器
+    return () => {
+      udpService.removeDataListener(handleDataUpdate);
+    };
+  }, []);
 
   return (
     <div className="gauge-container speed-gauge">

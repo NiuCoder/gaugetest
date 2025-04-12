@@ -6,6 +6,7 @@ import InfoPanel from './components/InfoPanel'
 import SettingsPage from './components/SettingsPage'
 import ConnectionStatus from './components/ConnectionStatus'
 import networkService from './services/networkService'
+import udpService from './services/udpService'
 import './App.css'
 
 function App() {
@@ -15,19 +16,19 @@ function App() {
     setShowSettings(!showSettings);
   };
 
-  // 在组件挂载时启动网络监控
+  // 在组件挂载时启动网络监控和UDP服务
   useEffect(() => {
     // 启动网络监控服务
     networkService.startMonitoring();
     
-    // 模拟UDP报文接收（实际应用中应替换为真实UDP接收逻辑）
-    const simulationInterval = setInterval(() => {
-      networkService.simulatePacket(0.7); // 70%的概率收到报文
-    }, 1000);
+    // 初始化UDP服务（实际环境中会监听真实UDP数据）
+    udpService.initialize();
     
     return () => {
+      // 清理资源
       networkService.stopMonitoring();
-      clearInterval(simulationInterval);
+      udpService.stopSimulation();
+      udpService.close();
     };
   }, []);
 
