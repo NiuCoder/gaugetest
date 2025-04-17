@@ -1,6 +1,6 @@
 # 仪表盘监控系统
 
-![版本](https://img.shields.io/badge/版本-1.0_Preview-blue)
+![版本](https://img.shields.io/badge/版本-1.0-blue)
 ![React](https://img.shields.io/badge/React-19.0.0-61dafb)
 ![Vite](https://img.shields.io/badge/Vite-6.2.0-646cff)
 
@@ -76,3 +76,93 @@
 ## 许可证
 
 MIT
+
+## 安装部署
+
+### 系统要求
+
+- Node.js 18.0.0 或更高版本
+- npm 9.0.0 或更高版本
+- Windows/Linux/macOS 操作系统
+
+### 安装步骤
+
+1. 克隆项目代码
+```bash
+git clone [项目仓库地址]
+cd gaugetest
+```
+
+2. 安装依赖
+```bash
+npm install
+```
+
+3. 配置环境变量
+在项目根目录创建 `.env` 文件，配置以下环境变量：
+```env
+VITE_UDP_SERVER_IP=172.25.109.2
+VITE_UDP_SERVER_PORT=10086
+```
+
+4. 启动开发服务器
+```bash
+npm run dev
+```
+
+5. 构建生产版本
+```bash
+npm run build
+```
+
+构建完成后，生产版本文件将位于 `dist` 目录中。
+
+### 部署说明
+
+#### 开发环境
+- 直接运行 `npm run dev` 启动开发服务器
+- 访问 `http://localhost:5173` 查看应用
+
+#### 生产环境
+1. 执行 `npm run build` 生成生产版本
+2. 将 `dist` 目录下的文件部署到 Web 服务器
+3. 配置 Web 服务器（nginx 示例）：
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    root /path/to/dist;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+## 使用说明
+
+### 启动应用
+1. 确保远程数据服务器（UDP服务器）已启动并正常运行
+2. 启动 Web 应用后，系统将自动连接到配置的 UDP 服务器
+3. 界面顶部的网络状态指示器会显示当前连接状态：
+   - 绿色：连接正常
+   - 红色：连接异常
+
+### 界面说明
+- **速度仪表盘**：实时显示当前速度，单位为米/秒
+- **电量仪表盘**：显示当前电量百分比
+- **信息面板**：
+  - 显示当前驾驶模式
+  - 显示累计工作时长
+  - 显示运行里程
+  - 显示距离信息
+
+### 注意事项
+1. 确保防火墙允许 UDP 端口 10086 的通信
+2. 建议使用 Chrome、Firefox、Edge 等现代浏览器访问
+3. 如遇到网络连接问题，请检查：
+   - UDP 服务器是否正常运行
+   - 网络连接是否正常
+   - 环境变量配置是否正确
