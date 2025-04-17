@@ -8,7 +8,7 @@
 
 仪表盘监控系统是一个基于React的可视化监控平台，专为实时数据监控设计。系统可通过UDP协议接收远程服务器数据，并将数据以直观的仪表盘形式展示。系统核心功能包括速度监控、电量监控、驾驶模式显示等多种数据指标的实时展示。
 ![image](https://github.com/user-attachments/assets/555555e5-8a50-460c-a605-78e309e94a87)
-
+本项目是一个基于cursor vibe coding开发的项目。
 
 ### 主要特性
 
@@ -24,6 +24,7 @@
 - Vite 6.2.0
 - react-gauge-component 1.2.64
 - react-icons 5.5.0
+- cursor
 
 ## 仪表盘组件
 
